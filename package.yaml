@@ -21,6 +21,9 @@ description:         Please see the README on GitHub at <https://github.com/Augm
 dependencies:
 - base >= 4.7 && < 5
 - flipstone-prelude
+- gi-gtk
+- gi-gtk-hs
+- haskell-gi-base
 - text
 
 default-extensions:
