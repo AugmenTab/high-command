@@ -70,8 +70,7 @@ main = do
     newClipboard <- Gtk.getTextBufferText =<< Gtk.getTextViewBuffer textPane
     whenJust newClipboard $ \cb -> setClipboard $ T.unpack cb
 
-  _ <- Gtk.onButtonClicked buttonClear $
-    setBufferText textPane T.empty
+  _ <- Gtk.onButtonClicked buttonClear $ setBufferText textPane T.empty
 
   _ <- Gtk.widgetGrabFocus buttonGenerate
   _ <- Gtk.onWidgetDestroy window Gtk.mainQuit
@@ -100,7 +99,7 @@ addButton grid colPos rowPos label = do
 
 setBufferText :: Gtk.TextView -> T.Text -> IO ()
 setBufferText textPane content = do
-  buffer  <- Gtk.getTextViewBuffer textPane
+  buffer <- Gtk.getTextViewBuffer textPane
 
   Gtk.textBufferSetText buffer content
     $ fromIntegral

@@ -27,6 +27,7 @@ dependencies:
 - gi-gtk-hs
 - Hclip
 - haskell-gi-base
+- random
 - text
 
 default-extensions:
