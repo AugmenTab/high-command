@@ -20,40 +20,33 @@ main = do
   Gtk.setWindowDefaultHeight window 700
   Gtk.setWindowWindowPosition window Gtk.WindowPositionCenter
 
-  -- Container: This top-level widget holds all the other widgets, since the
-  -- window itself can contain only one widget.
-  container <- Gtk.boxNew Gtk.OrientationVertical 0
-  Gtk.containerAdd window container
+  -- Grid: This grid will define the layout of the application so each item can
+  -- be scoped as siblings for easier setting and accessing of widget values.
+  grid <- Gtk.gridNew
+  Gtk.gridSetRowSpacing grid 10
+  Gtk.gridSetColumnSpacing grid 10
+  Gtk.gridSetColumnHomogeneous grid True
+  Gtk.containerAdd window grid
+  Gtk.widgetShow grid
 
-  -- Settings: This widget holds the toggle buttons that indicate what content
-  -- will be generated.
-  settings <- Gtk.boxNew Gtk.OrientationHorizontal 15
-  Gtk.setWidgetMargin settings 10
-  Gtk.boxSetHomogeneous settings True
-  Gtk.containerAdd container settings
-  Gtk.widgetShow settings
-  _toggleMission     <- addToggleButton settings "Mission"
-  _toggleEnvironment <- addToggleButton settings "Environment"
-  _toggleWorld       <- addToggleButton settings "World"
+  -- Settings: These toggle buttons indicate what content will be generated.
+  _toggleMission     <- addToggleButton grid 0 0 "Mission"
+  _toggleEnvironment <- addToggleButton grid 1 0 "Environment"
+  _toggleWorld       <- addToggleButton grid 2 0 "World"
 
-  -- Generated Text: This widget holds the generated text detailing the mission,
-  -- environment, and world data.
+  -- Generated Text: This text view holds the generated text detailing the
+  -- mission, environment, and world data.
   textPane <- Gtk.textViewNew
   Gtk.textViewSetEditable textPane False
   Gtk.setWidgetExpand textPane True
-  Gtk.containerAdd container textPane
+  Gtk.gridAttach grid textPane 0 1 3 1
   Gtk.widgetShow textPane
 
-  -- Buttons: This widget holds the actionable buttons to generate, copy, and
-  -- clear mission/environment/world text.
-  buttons <- Gtk.boxNew Gtk.OrientationHorizontal 15
-  Gtk.setWidgetMargin buttons 10
-  Gtk.boxSetHomogeneous settings True
-  Gtk.containerAdd container buttons
-  Gtk.widgetShow buttons
-  buttonGenerate <- addButton buttons "Generate"
-  _buttonCopy    <- addButton buttons "Copy to Clipboard"
-  _buttonClear   <- addButton buttons "Clear"
+  -- Buttons: These actionable buttons will generate, copy, and clear
+  -- mission/environment/world text.
+  buttonGenerate <- addButton grid 0 2 "Generate"
+  _buttonCopy    <- addButton grid 1 2 "Copy to Clipboard"
+  _buttonClear   <- addButton grid 2 2 "Clear"
 
   _ <- Gtk.widgetGrabFocus buttonGenerate
   _ <- Gtk.onWidgetDestroy window Gtk.mainQuit
@@ -61,21 +54,21 @@ main = do
 
   Gtk.main
 
-addToggleButton :: Gtk.Box -> T.Text -> IO Gtk.ToggleButton
-addToggleButton box label = do
+addToggleButton :: Gtk.Grid -> Int32 -> Int32 -> T.Text -> IO Gtk.ToggleButton
+addToggleButton grid colPos rowPos label = do
   toggle <- Gtk.toggleButtonNewWithMnemonic $ "Generate " <> label
   Gtk.setWidgetHexpand toggle True
   Gtk.setWidgetVexpand toggle False
   Gtk.setToggleButtonActive toggle True
-  Gtk.containerAdd box toggle
+  Gtk.gridAttach grid toggle colPos rowPos 1 1
   Gtk.widgetShow toggle
   pure toggle
 
-addButton :: Gtk.Box -> T.Text -> IO Gtk.Button
-addButton box label = do
+addButton :: Gtk.Grid -> Int32 -> Int32 -> T.Text -> IO Gtk.Button
+addButton grid colPos rowPos label = do
   button <- Gtk.buttonNewWithMnemonic label
   Gtk.setWidgetHexpand button True
   Gtk.setWidgetVexpand button False
-  Gtk.containerAdd box button
+  Gtk.gridAttach grid button colPos rowPos 1 1
   Gtk.widgetShow button
   pure button
