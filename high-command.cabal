@@ -23,6 +23,8 @@ source-repository head
   location: https://github.com/AugmenTab/high-command
 
 library
+  exposed-modules:
+      Generate
   other-modules:
       Paths_high_command
   hs-source-dirs:
@@ -37,7 +39,10 @@ library
       OverloadedStrings
   ghc-options: -j -Werror -Wall -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -Wmissing-deriving-strategies -Wmissing-export-lists -fno-warn-orphans
   build-depends:
-      base >=4.7 && <5
+      Hclip
+    , base >=4.7 && <5
+    , bytestring
+    , extra
     , flipstone-prelude
     , gi-gtk
     , gi-gtk-hs
@@ -61,7 +66,10 @@ executable high-command-exe
       OverloadedStrings
   ghc-options: -j -Werror -Wall -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -Wmissing-deriving-strategies -Wmissing-export-lists -fno-warn-orphans -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      Hclip
+    , base >=4.7 && <5
+    , bytestring
+    , extra
     , flipstone-prelude
     , gi-gtk
     , gi-gtk-hs

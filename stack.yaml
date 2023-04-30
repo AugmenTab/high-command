@@ -5,5 +5,6 @@ packages:
 - .
 
 extra-deps:
+- Hclip-3.0.0.4@sha256:df341c936594465df25c3b9f93f6ebe3110a36d64a51dbbd1dbd557394bbdba4,1648
 - git: https://github.com/flipstone/flipstone-prelude.git
   commit: b516a71f960149ff6cec163e2ee0c61478e913e0
