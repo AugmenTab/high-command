@@ -1,3 +1,4 @@
+{-# LANGUAGE ScopedTypeVariables #-}
 module Generate.World
   ( generateAtmosphereAndColonizationLevel
   , generateBiomes
